@@ -12,7 +12,7 @@ const typed = new Typed('.multiple-text', {
         'Full Stack Developer',
         'B.Tech CSE Student (CGPA 9.38)',
         'College Rank 1 Holder',
-        'Assistant Technical Lead',
+        'Technical Lead',
         'DSA Problem Solver (500+ Solved)'
     ],
     typeSpeed: 60,
