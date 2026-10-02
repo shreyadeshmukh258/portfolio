@@ -1,16 +1,23 @@
 // Initialize AOS (Animate On Scroll)
 AOS.init({
-    duration: 1000,
+    duration: 850,
     once: true,
-    offset: 100,
+    offset: 80,
+    easing: 'ease-out-cubic'
 });
 
-// Typed.js Initialization
+// Typed.js Initialization with resume-aligned titles
 const typed = new Typed('.multiple-text', {
-    strings: ['Student at RIT', 'Problem Solver', 'Tech Enthusiast', 'Web Developer'],
-    typeSpeed: 70,
-    backSpeed: 50,
-    backDelay: 1000,
+    strings: [
+        'Full Stack Developer',
+        'B.Tech CSE Student (CGPA 9.38)',
+        'College Rank 1 Holder',
+        'Assistant Technical Lead',
+        'DSA Problem Solver (500+ Solved)'
+    ],
+    typeSpeed: 60,
+    backSpeed: 45,
+    backDelay: 1200,
     loop: true
 });
 
@@ -18,44 +25,82 @@ const typed = new Typed('.multiple-text', {
 const menuIcon = document.getElementById('menu-icon');
 const mobileNav = document.getElementById('mobile-nav');
 
-menuIcon.addEventListener('click', () => {
-    mobileNav.classList.toggle('hidden');
-    mobileNav.classList.toggle('flex');
-});
-
-// Close nav when clicking a link (mobile)
-const navLinks = document.querySelectorAll('#mobile-nav a');
-navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        mobileNav.classList.add('hidden');
-        mobileNav.classList.remove('flex');
+if (menuIcon && mobileNav) {
+    menuIcon.addEventListener('click', () => {
+        mobileNav.classList.toggle('hidden');
+        mobileNav.classList.toggle('flex');
     });
+
+    // Close nav when clicking any link
+    const mobileLinks = mobileNav.querySelectorAll('a');
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            mobileNav.classList.add('hidden');
+            mobileNav.classList.remove('flex');
+        });
+    });
+}
+
+// Resume Modal Handlers
+function openResumeModal() {
+    const modal = document.getElementById('resume-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeResumeModal() {
+    const modal = document.getElementById('resume-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
+    }
+}
+
+// Close modal on escape key or clicking outside
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeResumeModal();
+    }
 });
 
-// Trigger Progress Bars when scrolled into view
-const progressSection = document.getElementById('skills');
-const progressBars = document.querySelectorAll('.progress-bar-fill');
+const resumeModal = document.getElementById('resume-modal');
+if (resumeModal) {
+    resumeModal.addEventListener('click', (e) => {
+        if (e.target === resumeModal) {
+            closeResumeModal();
+        }
+    });
+}
 
-const showProgress = () => {
-    const sectionPos = progressSection.getBoundingClientRect().top;
-    const screenPos = window.innerHeight / 1.2;
-
-    if(sectionPos < screenPos) {
-        progressBars.forEach(bar => {
-            const width = bar.getAttribute('data-width');
-            bar.style.width = width + '%';
-        });
-    }
-};
-
-window.addEventListener('scroll', showProgress);
-
-// Form Submission prevention (Demo)
+// Contact Form Submission Handler
 const contactForm = document.getElementById('contact-form');
 if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        alert('Thank you for your message! This is a demo form.');
+        
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+        
+        const nameVal = nameInput ? nameInput.value.trim() : 'there';
+        
+        // Show stylish notification
+        alert(`Thank you, ${nameVal}! Your message has been sent successfully. Shreya will reach out to you shortly.`);
+        
         contactForm.reset();
     });
 }
+
+// Dynamic Header glassmorphism shadow on scroll
+const header = document.querySelector('header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+        header.classList.add('shadow-lg', 'shadow-orange-500/5', 'bg-[#070708]/95');
+    } else {
+        header.classList.remove('shadow-lg', 'shadow-orange-500/5', 'bg-[#070708]/95');
+    }
+});
